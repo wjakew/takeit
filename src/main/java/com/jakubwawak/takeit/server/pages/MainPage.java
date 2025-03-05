@@ -6,8 +6,11 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.jakubwawak.takeit.TakeitApplication;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.jakubwawak.takeit.server.components.FilePickerComponent;
@@ -42,9 +45,10 @@ public class MainPage extends VerticalLayout {
         passwordField.setWidth("200px");
         passwordField.setHeight("50px");
         passwordField.setPlaceholder("Enter password");
-        unlockButton = new Button("Unlock",VaadinIcon.KEY.create(),this::unlockAction);
+        unlockButton = new Button("Unlock", VaadinIcon.KEY.create(), this::unlockAction);
         unlockButton.setWidth("200px");
         unlockButton.setHeight("50px");
+        unlockButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
 
         filePickerComponent = new FilePickerComponent(this);
     }
@@ -66,7 +70,13 @@ public class MainPage extends VerticalLayout {
     private void unlockAction(ClickEvent<Button> event){
         if (passwordField.getValue().equals(TakeitApplication.properties.getValue("$password"))){
             removeAll();
+            add(new HorizontalLayout(new H1("take it"), VaadinIcon.HAND.create()));
             add(filePickerComponent);
+            passwordField.setValue("");
+        }
+        else{
+            Notification.show("Wrong password!", 3000, Notification.Position.BOTTOM_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
+            passwordField.setValue("");
         }
     }
 
