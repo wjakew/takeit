@@ -9,11 +9,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.jakubwawak.takeit.properties_engine.Properties;
+import com.vaadin.flow.spring.annotation.EnableVaadin;
 
 /**
  * Main class for the Takeit application.
  */
 @SpringBootApplication
+@EnableVaadin({"com.jakubwawak"})
 public class TakeitApplication {
 
 	public static final String version = "0.0.1";
